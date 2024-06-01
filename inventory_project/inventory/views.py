@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from .serializers import AddItemSerializer, RemoveItemSerializer
 from django.http import HttpResponse
 from datetime import datetime
@@ -16,7 +16,10 @@ from .application_service import (
     export_history_service
 )
 
-@swagger_auto_schema(method='post', request_body=AddItemSerializer)
+@extend_schema(
+    request=AddItemSerializer,
+    responses={200: 'Item added successfully'}
+)
 @api_view(['POST'])
 def add_item(request):
     serializer = AddItemSerializer(data=request.data)
@@ -27,7 +30,10 @@ def add_item(request):
         return Response({'status': 'item added'}, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@swagger_auto_schema(method='post', request_body=RemoveItemSerializer)
+@extend_schema(
+    request=RemoveItemSerializer,
+    responses={200: 'Item removed successfully'}
+)
 @api_view(['POST'])
 def remove_item(request):
     serializer = RemoveItemSerializer(data=request.data)
@@ -64,7 +70,7 @@ def export_history(request):
     history_data = export_history_service()
 
     filename = f"history_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-    file_path = f"inventory//history//reports//{filename}"
+    file_path = f"inventory/history/reports/{filename}"
 
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
