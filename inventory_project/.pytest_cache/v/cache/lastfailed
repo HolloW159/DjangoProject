@@ -1,0 +1,5 @@
+{
+  "inventory/tests/e2e/test_e2e.py::test_add_item": true,
+  "inventory/tests/e2e/test_e2e.py::test_remove_item": true,
+  "inventory/tests/e2e/test_e2e.py::test_get_stock_level": true
+}
