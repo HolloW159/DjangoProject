@@ -70,7 +70,7 @@ def export_history(request):
     history_data = export_history_service()
 
     filename = f"history_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-    file_path = f"inventory/history/reports/{filename}"
+    file_path = f"inventory//history//reports//{filename}"
 
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
@@ -89,3 +89,4 @@ def export_history(request):
         writer.writerow([row['Item'], row['Quantity']])
 
     return response
+
